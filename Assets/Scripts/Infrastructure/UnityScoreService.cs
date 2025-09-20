@@ -6,8 +6,14 @@ namespace DiceGame.Infrastructure
 {
     public class UnityScoreService : MonoBehaviour, IScoreService
     {
+        private static readonly int PopupAnim = Animator.StringToHash("PopupAnim");
+
         [Header("UI References")]
         [SerializeField] private TMP_Text scoreText;
+        
+        [Header("Animation")]
+        [SerializeField] private Animator increasePointAnimator;
+        [SerializeField] private TMP_Text deltaText;
         
         [Header("Configuration")]
         [SerializeField] private int initialScore = 0;
@@ -47,6 +53,12 @@ namespace DiceGame.Infrastructure
         public void AddScore(int points)
         {
             _coreScoreService.AddScore(points);
+            
+            if (increasePointAnimator != null && deltaText != null)
+            {
+                deltaText.text = $"+{points}";
+                increasePointAnimator.Play(PopupAnim);
+            }
         }
         
         public void SetScore(int score)
