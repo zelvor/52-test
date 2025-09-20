@@ -1,18 +1,14 @@
 using UnityEngine;
+using System;
 
-public interface IDice
+public class DiceController : MonoBehaviour
 {
-    int Roll();
-}
+    [SerializeField] private Dice dice;
+    [SerializeField] private DiceRoller roller;
 
-
-public class DiceController : MonoBehaviour, IDice
-{
-    private const int MinFace = 1;
-    private const int MaxFace = 6;
-
-    public int Roll()
+    public void Roll(Action<int> onComplete)
     {
-        return Random.Range(MinFace, MaxFace + 1);
+        int result = dice.Roll();
+        roller.PlayRoll(result, () => onComplete?.Invoke(result));
     }
 }
