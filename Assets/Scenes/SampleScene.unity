@@ -587,10 +587,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1223592649}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1ebff1b711a31408c022f08acad390, type: 3}
+  m_Script: {fileID: 11500000, guid: 48497a19d742fb046ac6d837ca7d3eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1487761524}
+  initialScore: 0
 --- !u!1 &1284702260
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,8 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rollButton: {fileID: 276894352}
-  diceController: {fileID: 1831680654}
-  scoreManager: {fileID: 1223592651}
+  gameContainer: {fileID: 1831680653}
 --- !u!1 &1470433393
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +740,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -35.229}
+  m_AnchoredPosition: {x: 0, y: -35}
   m_SizeDelta: {x: 200, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1487761524
@@ -1236,7 +1236,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1831680651}
-  - component: {fileID: 1831680654}
   - component: {fileID: 1831680653}
   - component: {fileID: 1831680652}
   m_Layer: 0
@@ -1254,14 +1253,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831680650}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 543450653701515651}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1831680652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,10 +1270,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1831680650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad2ddae875ee884c845bfb5185efd42, type: 3}
+  m_Script: {fileID: 11500000, guid: 619e6597523975b4f943144849a16410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diceTransform: {fileID: 1831680651}
   spinDuration: 1.2
   spinSpeed: 720
   spinCurve:
@@ -1327,13 +1325,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  diceTransform: {fileID: 1831680651}
   faceRotations:
-  - {x: 0, y: 1, z: 0, w: 0}
-  - {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
-  - {x: 0, y: 0, z: 0, w: 1}
-  - {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-  - {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  - {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  - {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - {x: 0, y: -0.6427876, z: 0, w: 0.76604444}
+  - {x: 0, y: 0, z: -1, w: 0}
+  - {x: 0.49999997, y: 0.49999997, z: -0.49999997, w: 0.49999997}
+  - {x: -0.00000003090862, y: 0.70710677, z: -0.70710677, w: -0.00000003090862}
+  - {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
 --- !u!114 &1831680653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1343,23 +1342,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1831680650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b22ed1739a5029248a889aaad88ea73b, type: 3}
+  m_Script: {fileID: 11500000, guid: b48c1235bd37bb24b87b30e494178e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1831680654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831680650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57bc42b8b02ac734cb7e93affbbe5e1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dice: {fileID: 1831680653}
-  roller: {fileID: 1831680652}
+  diceAnimation: {fileID: 1831680652}
+  scoreService: {fileID: 1223592651}
+  randomSeed: -1
 --- !u!1 &1871820671
 GameObject:
   m_ObjectHideFlags: 0

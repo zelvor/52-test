@@ -1,27 +1,83 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DiceGame.Core;
+using DiceGame.Infrastructure;
 
-public class GameManager : MonoBehaviour
+namespace DiceGame.Presentation
 {
-    [SerializeField] private Button rollButton;
-    [SerializeField] private DiceController diceController;
-    [SerializeField] private ScoreManager scoreManager;
-
-    private void Start()
+    public class GameManager : MonoBehaviour
     {
-        rollButton.onClick.AddListener(OnRollClicked);
-        scoreManager.SetScore(0);
-    }
-
-    private void OnRollClicked()
-    {
-        diceController.Roll(OnDiceResult);
-    }
-
-    private void OnDiceResult(int result)
-    {
-        Debug.Log($"Dice Result: {result}");
-        if (result == 6)
-            scoreManager.AddScore(1);
+        [Header("UI References")]
+        [SerializeField] private Button rollButton;
+        
+        [Header("Service Container")]
+        [SerializeField] private DiceGameContainer gameContainer;
+        
+        private IGameService _gameService;
+        
+        private void Start()
+        {
+            InitializeServices();
+            SetupUI();
+        }
+        
+        private void InitializeServices()
+        {
+            if (gameContainer == null)
+            {
+                Debug.LogError("GameContainer is not assigned!");
+                return;
+            }
+            
+            _gameService = gameContainer.GameService;
+            if (_gameService == null)
+            {
+                Debug.LogError("GameService is not available!");
+                return;
+            }
+            
+            _gameService.OnDiceRolled += OnDiceRolled;
+        }
+        
+        private void SetupUI()
+        {
+            if (rollButton == null)
+            {
+                Debug.LogError("RollButton is not assigned!");
+                return;
+            }
+            
+            rollButton.onClick.AddListener(OnRollButtonClicked);
+        }
+        
+        private void OnRollButtonClicked()
+        {
+            if (_gameService == null) return;
+            
+            _gameService.RollDice(OnDiceRollComplete);
+        }
+        
+        private void OnDiceRolled(int result)
+        {
+            Debug.Log($"Dice rolled: {result}");
+        }
+        
+        private void OnDiceRollComplete(int result)
+        {
+            Debug.Log($"Dice roll completed: {result}");
+        }
+        
+        private void OnDestroy()
+        {
+            if (_gameService != null)
+            {
+                _gameService.OnDiceRolled -= OnDiceRolled;
+            }
+            
+            if (rollButton != null)
+            {
+                rollButton.onClick.RemoveListener(OnRollButtonClicked);
+            }
+        }
     }
 }

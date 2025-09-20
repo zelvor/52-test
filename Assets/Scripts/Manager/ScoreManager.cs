@@ -1,20 +1,60 @@
 using UnityEngine;
 using TMPro;
+using DiceGame.Core;
+using DiceGame.Infrastructure;
 
-public class ScoreManager : MonoBehaviour
+namespace DiceGame.Presentation
 {
-    [SerializeField] private TMP_Text scoreText;
-    private int score;
-
-    public void SetScore(int score)
+    public class ScoreManager : MonoBehaviour
     {
-        this.score = score;
-        scoreText.text = $"{score}";
-    }
-    
-    public void AddScore(int value)
-    {
-        score += value;
-        scoreText.text = $"{score}";
+        [Header("UI References")]
+        [SerializeField] private TMP_Text scoreText;
+        
+        [Header("Service Reference")]
+        [SerializeField] private UnityScoreService scoreService;
+        
+        private void Start()
+        {
+            if (scoreService == null)
+            {
+                Debug.LogError("ScoreService is not assigned!");
+                return;
+            }
+            
+            scoreService.OnScoreChanged += UpdateScoreDisplay;
+            UpdateScoreDisplay(scoreService.CurrentScore);
+        }
+        
+        private void UpdateScoreDisplay(int newScore)
+        {
+            if (scoreText != null)
+            {
+                scoreText.text = newScore.ToString();
+            }
+        }
+        
+        public void SetScore(int score)
+        {
+            if (scoreService != null)
+            {
+                scoreService.SetScore(score);
+            }
+        }
+        
+        public void AddScore(int value)
+        {
+            if (scoreService != null)
+            {
+                scoreService.AddScore(value);
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            if (scoreService != null)
+            {
+                scoreService.OnScoreChanged -= UpdateScoreDisplay;
+            }
+        }
     }
 }
